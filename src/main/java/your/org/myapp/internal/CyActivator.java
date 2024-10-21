@@ -1,6 +1,10 @@
 package your.org.myapp.internal;
 
 import static org.cytoscape.work.ServiceProperties.*; //the ALL_CAPS symbols
+
+import org.cytoscape.model.CyNetwork;
+import org.cytoscape.model.CyNetworkFactory;
+import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.work.TaskFactory; //register service
 import org.cytoscape.service.util.AbstractCyActivator; //inherits from
 import org.osgi.framework.BundleContext;
@@ -40,16 +44,18 @@ public class CyActivator extends AbstractCyActivator {
 	 */
 	@Override
 	public void start(BundleContext context) throws Exception {
-		MyTaskFactory myTaskFactory = new MyTaskFactory(); //the MyTaskFactory file is a dummy file
 		Properties props = new Properties();
-		props.setProperty(PREFERRED_MENU, "Apps");
-		props.setProperty(TITLE, "A HELLO WORLD FROM THE DEPTH OF THE DOCS");
-		//Not all task factories will be commands
-		//props.setProperty(COMMAND, "loadCDDDomains4node");
-		//props.setProperty(COMMAND_NAMESPACE, "cddApp");
-		//props.setProperty(IN_MENU_BAR, "true");
+		props.setProperty(PREFERRED_MENU, "Apps"); //The menu of the cytoscape app
+		props.setProperty(TITLE, "A random task"); //Sub menu
 		// Usually means the second menu item
 		//props.setProperty(MENU_GRAVITY, "2.0");
+
+		//slide, getService() la cach dung API cua OSGi
+		CyNetworkFactory networkFactory = getService(context, CyNetworkFactory.class);
+		CyNetworkManager networkManager = getService(context, CyNetworkManager.class);
+
+		MyTaskFactory myTaskFactory = new MyTaskFactory(networkFactory, networkManager);
+		//register cai myTaskFactory
 		registerService(context, myTaskFactory, TaskFactory.class, props);
 	}
 }
