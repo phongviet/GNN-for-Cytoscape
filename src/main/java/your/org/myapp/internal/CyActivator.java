@@ -5,6 +5,9 @@ import static org.cytoscape.work.ServiceProperties.*; //the ALL_CAPS symbols
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
+import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.view.model.CyNetworkViewFactory;
+import org.cytoscape.view.model.CyNetworkViewManager;
 import org.cytoscape.work.TaskFactory; //register service
 import org.cytoscape.service.util.AbstractCyActivator; //inherits from
 import org.osgi.framework.BundleContext;
@@ -53,8 +56,10 @@ public class CyActivator extends AbstractCyActivator {
 		//slide, getService() la cach dung API cua OSGi
 		CyNetworkFactory networkFactory = getService(context, CyNetworkFactory.class);
 		CyNetworkManager networkManager = getService(context, CyNetworkManager.class);
+		CyNetworkViewManager networkViewManager = getService(context, CyNetworkViewManager.class);
+		CyNetworkViewFactory networkViewFactory = getService(context, CyNetworkViewFactory.class);
 
-		MyTaskFactory myTaskFactory = new MyTaskFactory(networkFactory, networkManager);
+		MyTaskFactory myTaskFactory = new MyTaskFactory(networkFactory, networkManager, networkViewFactory, networkViewManager);
 		//register cai myTaskFactory
 		registerService(context, myTaskFactory, TaskFactory.class, props);
 	}
