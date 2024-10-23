@@ -48,8 +48,8 @@ public class CyActivator extends AbstractCyActivator {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		Properties props = new Properties();
-		props.setProperty(PREFERRED_MENU, "Apps"); //The menu of the cytoscape app
-		props.setProperty(TITLE, "A random task"); //Sub menu
+		props.setProperty(PREFERRED_MENU, "Apps.Submenu"); //The menu of the cytoscape app
+		props.setProperty(TITLE, "A random task"); //Title of the menu item
 		// Usually means the second menu item
 		//props.setProperty(MENU_GRAVITY, "2.0");
 
