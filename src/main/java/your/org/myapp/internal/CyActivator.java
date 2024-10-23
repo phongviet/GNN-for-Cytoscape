@@ -64,3 +64,4 @@ public class CyActivator extends AbstractCyActivator {
 		registerService(context, myTaskFactory, TaskFactory.class, props);
 	}
 }
+//ご無沙汰しております
