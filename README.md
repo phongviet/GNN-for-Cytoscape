@@ -17,7 +17,7 @@ pip install -r /Python/requirements.txt
 ## Usage
 * Activate the server to communicate with Cytoscape:
 ```bash
-server.py
+python server.py
 ```
 * In Cytoscape tool bar: Apps -> MyApps
 
