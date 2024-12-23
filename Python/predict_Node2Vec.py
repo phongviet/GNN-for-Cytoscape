@@ -14,7 +14,7 @@ def predict_node_label_Node2Vec(node_name):
             return f"Node '{node_name}' not found in the graph."
 
         # Perform K-Means clustering
-        kmeans = KMeans(n_clusters=20, random_state=0)
+        kmeans = KMeans(n_clusters=7, random_state=0)
         kmeans.fit(embeddings)
 
         # Get the cluster label for the node
