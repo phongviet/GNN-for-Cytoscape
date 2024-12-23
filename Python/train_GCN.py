@@ -24,7 +24,7 @@ class GCN(torch.nn.Module):
         return x, F.log_softmax(x, dim=1)
 
 
-def train_model_GCN(edges, node_features, labels, train_test_ratio=0.9, num_epochs=100, hidden_dim=128,
+def train_model_GCN(edges, node_features, labels, splits, num_epochs=100, hidden_dim=128,
                     learning_rate=0.01, weight_decay=5e-4, output_dim=7):
     # Create node mappings
     nodes = set()
@@ -51,7 +51,6 @@ def train_model_GCN(edges, node_features, labels, train_test_ratio=0.9, num_epoc
 
     node_features_tensor = torch.tensor(features_tensor, dtype=torch.float)
 
-    # Assuming labels is a list of string labels
     unique_labels = list(set(labels))  # Get unique string labels
     label_mapping = {label: idx for idx, label in enumerate(unique_labels)}  # Map each label to a unique integer
 
@@ -67,20 +66,9 @@ def train_model_GCN(edges, node_features, labels, train_test_ratio=0.9, num_epoc
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     graph = graph.to(device)
 
-    # Randomly shuffle the node indices
-    indices = list(range(len(node_mapping)))
-    random.shuffle(indices)
-
-    # Split the data based on train/test ratio
-    train_size = int(len(indices) * train_test_ratio)
-
-    # Generate train and test masks
-    train_indices = indices[:train_size]
-    test_indices = indices[train_size:]
-
     # Create boolean masks for train and test sets
-    train_mask = torch.tensor([i in train_indices for i in range(len(node_mapping))], dtype=torch.bool)
-    test_mask = torch.tensor([i in test_indices for i in range(len(node_mapping))], dtype=torch.bool)
+    train_mask = torch.tensor([split == "Train" for split in splits], dtype=torch.bool)
+    test_mask = torch.tensor([split == "Test" for split in splits], dtype=torch.bool)
 
     # Model, loss function, optimizer
     model = GCN(input_dim=node_features_tensor.size(1), hidden_dim=hidden_dim, output_dim=output_dim).to(device)
@@ -134,8 +122,9 @@ def train_model_GCN(edges, node_features, labels, train_test_ratio=0.9, num_epoc
 
     # Save embeddings as a pickle file
     with open(embedding_path, 'wb') as f:
-        pickle.dump({"embeddings": embeddings.cpu().numpy(), "node_mapping": node_mapping, "edge_index": edge_index},
-                    f)  # Save embeddings and node mapping in a pickle file
+        pickle.dump({"embeddings": embeddings.cpu().numpy(), "node_mapping": node_mapping,
+                     "edge_index": edge_index, "label_mapping": label_mapping}, f)
+    # Save embeddings and node mapping in a pickle file
 
     print(f"Embeddings saved at {embedding_path}")
 

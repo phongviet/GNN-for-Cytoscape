@@ -31,11 +31,12 @@ def load_model(model_path):
 # Function to predict node label (aligns with Flask route structure)
 def predict_node_label_GCN(node_name):
     try:
-        # Load the embeddings and node mapping from the pickle file
         with open("GCN_embeddings.pkl", "rb") as f:
             data = pickle.load(f)
             embeddings = data["embeddings"]
             node_mapping = data["node_mapping"]
+            label_mapping = {v: k for k, v in data["label_mapping"].items()}  # Reverse mapping
+
 
         with open("features.pkl", "rb") as f:
             features = torch.tensor(pickle.load(f), dtype=torch.float)
@@ -56,16 +57,14 @@ def predict_node_label_GCN(node_name):
 
         # Create Data object with the full set of node features and the edge_index
         data = Data(x=features, edge_index=edge_index)
-        print(edge_index.size())
-        print(features.size())
+
         # Predict the label
         with torch.no_grad():
             out, _ = model(data.x, data.edge_index)  # Pass all node features to the model
 
         # Get the predicted class label for the specific node
         _, predicted_class = out[node_idx].max(dim=0)  # Get prediction for the specific node
-        predicted_label = predicted_class.item()
-
+        predicted_label = label_mapping[predicted_class.item()]
         return {"status": "success", "predicted_label": predicted_label}
 
     except Exception as e:

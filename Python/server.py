@@ -79,8 +79,8 @@ def receive_edge_indices_and_features():
             features.append(node_feats)
             # print(f"Node: {node_name}, Features: {node_feats}, Label: {label}, Split: {split}")
 
-        # Call the train_model function with the extracted features, labels, and edges
-        train_model_GCN(edges, features, labels)
+        # Call the train_model function
+        train_model_GCN(edges, features, labels, splits)
 
         # Return success response
         return jsonify({"status": "success", "message": "Edges and node features received, model trained"}), 200
