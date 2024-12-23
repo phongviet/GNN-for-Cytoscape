@@ -7,7 +7,7 @@ node2vec_model = None
 node_mapping = {}
 embeddings = None
 
-def train_model(edges):
+def train_model_Node2Vec(edges):
     global node2vec_model, node_mapping, embeddings
 
     # Create node mappings
@@ -37,7 +37,7 @@ def train_model(edges):
     loader = node2vec_model.loader(batch_size=128, shuffle=True, num_workers=0)
     node2vec_model.train()
 
-    for epoch in range(1000):  # Adjust as needed
+    for epoch in range(100):  # Adjust as needed
         total_loss = 0
         for pos_rw, neg_rw in loader:
             optimizer.zero_grad()
@@ -49,7 +49,7 @@ def train_model(edges):
 
     # Save the embeddings
     embeddings = node2vec_model(torch.arange(graph_data.num_nodes, dtype=torch.long).to(device)).detach().cpu().numpy()
-    with open("embeddings.pkl", "wb") as f:
+    with open("Node2Vec_embeddings.pkl", "wb") as f:
         pickle.dump({"embeddings": embeddings, "node_mapping": node_mapping}, f)
 
     print("Training complete. Embeddings saved.")

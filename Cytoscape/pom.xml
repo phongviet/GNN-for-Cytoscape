@@ -139,7 +139,7 @@
 		</repository>
 	</repositories>
 
-	<name>CytoEscape</name>
+	<name>Cytoscape App</name>
     <!--
     Our app depends on other OSGi bundle JARs. We list all the JARs
     we depend on here. Just like our own Maven project, these

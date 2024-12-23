@@ -1,10 +1,10 @@
 import pickle
 from sklearn.cluster import KMeans
 
-def predict_node_label(node_name):
+def predict_node_label_Node2Vec(node_name):
     # Load the embeddings and node mapping
     try:
-        with open("embeddings.pkl", "rb") as f:
+        with open("Node2Vec_embeddings.pkl", "rb") as f:
             data = pickle.load(f)
             embeddings = data["embeddings"]
             node_mapping = data["node_mapping"]
