@@ -38,24 +38,26 @@ public class CyActivator extends AbstractCyActivator {
         displayEdgeIndicesProps.setProperty("title", "Display Edge Indices");
         registerService(context, displayEdgeIndicesTaskFactory, org.cytoscape.work.TaskFactory.class, displayEdgeIndicesProps);
 
+        //Node2Vec training
         SendEdgeIndicesTaskFactory sendEdgeIndexTaskFactory = new SendEdgeIndicesTaskFactory(applicationManager);
         Properties sendEdgeIndexProps = new Properties();
         sendEdgeIndexProps.setProperty("preferredMenu", "Apps.MyApp");
         sendEdgeIndexProps.setProperty("title", "Train on Node2Vec");
         registerService(context, sendEdgeIndexTaskFactory, org.cytoscape.work.TaskFactory.class, sendEdgeIndexProps);
-
+        //Node2Vec prediction
         predictNodeNode2VecTaskFactory predictNodeNode2VecTaskFactory = new predictNodeNode2VecTaskFactory(applicationManager);
         Properties predictNodeN2VProps = new Properties();
         predictNodeN2VProps.setProperty("preferredMenu", "Apps.MyApp");
         predictNodeN2VProps.setProperty("title", "Predict class for Node2Vec");
         registerService(context, predictNodeNode2VecTaskFactory, org.cytoscape.work.TaskFactory.class, predictNodeN2VProps);
 
+        //GCN training
         SendEdgeIndicesAndNodeFeatureTaskFactory sendEdgeIndicesAndNodeFeatureTaskFactory = new SendEdgeIndicesAndNodeFeatureTaskFactory(applicationManager);
         Properties sendEdgeIndicesAndNodeFeatureProps = new Properties();
         sendEdgeIndicesAndNodeFeatureProps.setProperty("preferredMenu", "Apps.MyApp");
         sendEdgeIndicesAndNodeFeatureProps.setProperty("title", "Train on GCN");
         registerService(context, sendEdgeIndicesAndNodeFeatureTaskFactory, org.cytoscape.work.TaskFactory.class, sendEdgeIndicesAndNodeFeatureProps);
-
+        //GCN prediction
         predictNodeGCNTaskFactory predictNodeGCNTaskFactory = new predictNodeGCNTaskFactory(applicationManager);
         Properties predictNodeGCNProps = new Properties();
         predictNodeGCNProps.setProperty("preferredMenu", "Apps.MyApp");
