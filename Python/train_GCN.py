@@ -87,7 +87,7 @@ def train_model_GCN(edges, node_features, labels, splits, num_epochs=100, hidden
         optimizer.step()
         return loss.item()
 
-    # Test function
+    # Test function # evaluate
     def test():
         model.eval()
         with torch.no_grad():
